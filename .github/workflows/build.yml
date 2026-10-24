@@ -4,7 +4,7 @@ on:
     branches: [main]
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -34,3 +34,15 @@ jobs:
           name: Javelin-Forge-1.20.1-JAR
           path: JavelinForge1201/build/libs/javelin-*.jar
           if-no-files-found: error
+      - name: Prepare standalone JAR
+        run: |
+          cp JavelinForge1201/build/libs/javelin-*.jar Javelin-Forge-1.20.1.jar
+      - name: Publish direct-download GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view javelin-1.1.0 >/dev/null 2>&1; then
+            gh release upload javelin-1.1.0 Javelin-Forge-1.20.1.jar --clobber
+          else
+            gh release create javelin-1.1.0 Javelin-Forge-1.20.1.jar --title 'Javelin 1.1.0 — Forge 1.20.1' --notes 'Compiled Forge 1.20.1 mod. Requires Minecraft Forge 47.4.x and Java 17.' --target main
+          fi
