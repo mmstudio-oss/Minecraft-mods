@@ -1,17 +1,21 @@
-# Minecraft Mods — FGM-148 Javelin (Minecraft 1.20.1 / Forge)
+# FGM-148 Javelin — Minecraft 1.20.1 Forge
 
-Minecraft-styled guided launcher with right-click scope, hold-left-click to fire, entity or terrain targeting, rocket flight and staged explosion effects.
+Пиксельная пусковая установка и ракета, прицел по ПКМ, удержание ЛКМ для выстрела, наведение на моба или блок, дуговой полёт и анимированный взрыв.
 
-**Build status:** the real Forge JAR is compiled by GitHub Actions. Open the **Actions** tab, select `Build Javelin mod JAR` and download the build artifact after a successful run.
+## Получение JAR через GitHub Actions
 
-The source bundle is stored at `javelin-source.tar.gz`. The workflow extracts it, regenerates original textures and builds with ForgeGradle.
+1. Скачайте архив `Javelin_FGM148_Forge_1.20.1_v1.1_source.zip` из диалога ChatGPT.
+2. На странице этого репозитория нажмите **Add file → Upload files**, загрузите **сам ZIP как файл, без распаковки** и нажмите **Commit changes**.
+3. Откройте вкладку **Actions → Build Javelin mod JAR**. Пуш запустит сборку автоматически; при необходимости нажмите **Run workflow**.
+4. При успешной сборке откройте запуск Actions и скачайте **Javelin-Forge-1.20.1-JAR** в разделе **Artifacts**. Внутри будет JAR для папки `.minecraft/mods`.
 
-Controls: hold **RMB** to aim, hold **LMB** for 0.6 s to launch. Creative mode has infinite ammunition.
+Этот репозиторий пока содержит только workflow. До загрузки ZIP компиляция **не запустится успешно**. Проект ещё не прошёл Java-компиляцию, поэтому могут понадобиться исправления по логам Actions.
 
-Commands:
+### Команды после установки
+
 ```
 /give @s javelin:javelin_launcher 1
 /give @s javelin:javelin_round 16
 ```
 
-Requires Minecraft 1.20.1, Forge 47.4.x and Java 17. Explosions don't destroy blocks by default (`config/javelin-common.toml`).
+Forge 47.4.x, Minecraft 1.20.1, Java 17. Разрушение блоков взрывом выключено по умолчанию.
