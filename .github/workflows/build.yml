@@ -22,6 +22,10 @@ jobs:
         run: |
           test -f Javelin_FGM148_Forge_1.20.1_v1.1_source.zip || { echo 'Upload Javelin_FGM148_Forge_1.20.1_v1.1_source.zip to the repository first'; exit 1; }
           unzip -oq Javelin_FGM148_Forge_1.20.1_v1.1_source.zip
+      - name: Apply Javelin 1.2 visuals and directional impact
+        run: |
+          tar -xzf overrides/v12_patch.tar.gz -C overrides
+          python3 overrides/apply_v12.py
       - name: Check assets
         working-directory: JavelinForge1201
         run: python3 verify_assets.py
@@ -36,13 +40,13 @@ jobs:
           if-no-files-found: error
       - name: Prepare standalone JAR
         run: |
-          cp JavelinForge1201/build/libs/javelin-*.jar Javelin-Forge-1.20.1.jar
+          cp JavelinForge1201/build/libs/javelin-*.jar Javelin-Forge-1.20.1-v1.2.0.jar
       - name: Publish direct-download GitHub release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if gh release view javelin-1.1.0 >/dev/null 2>&1; then
-            gh release upload javelin-1.1.0 Javelin-Forge-1.20.1.jar --clobber
+          if gh release view javelin-1.2.0 >/dev/null 2>&1; then
+            gh release upload javelin-1.2.0 Javelin-Forge-1.20.1-v1.2.0.jar --clobber
           else
-            gh release create javelin-1.1.0 Javelin-Forge-1.20.1.jar --title 'Javelin 1.1.0 — Forge 1.20.1' --notes 'Compiled Forge 1.20.1 mod. Requires Minecraft Forge 47.4.x and Java 17.' --target main
+            gh release create javelin-1.2.0 Javelin-Forge-1.20.1-v1.2.0.jar --title 'Javelin 1.2.0 — Forge 1.20.1' --notes 'New pixel model, slender rocket, 2x2 cross section and 5 block directional penetration. Forge 47.4.x, Java 17.' --target main
           fi
