@@ -18,16 +18,19 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.8'
-      - name: Unpack Javelin sources and generate Minecraft artwork
+      - name: Unpack mod source archive
         run: |
-          tar xzf javelin-source.tar.gz
-          python3 -m pip install --quiet Pillow
-          python3 generate_assets.py
-      - name: Build with ForgeGradle
+          test -f Javelin_FGM148_Forge_1.20.1_v1.1_source.zip || { echo 'Upload Javelin_FGM148_Forge_1.20.1_v1.1_source.zip to the repository first'; exit 1; }
+          unzip -oq Javelin_FGM148_Forge_1.20.1_v1.1_source.zip
+      - name: Check assets
+        working-directory: JavelinForge1201
+        run: python3 verify_assets.py
+      - name: Compile Forge mod
+        working-directory: JavelinForge1201
         run: gradle build --no-daemon --stacktrace
       - name: Upload real mod JAR
         uses: actions/upload-artifact@v4
         with:
           name: Javelin-Forge-1.20.1-JAR
-          path: build/libs/javelin-*.jar
+          path: JavelinForge1201/build/libs/javelin-*.jar
           if-no-files-found: error
